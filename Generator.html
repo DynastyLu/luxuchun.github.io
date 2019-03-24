@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh_CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/luxuchun.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/luxuchun.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/luxuchun.github.io/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/luxuchun.github.io/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/luxuchun.github.io/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/luxuchun.github.io/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/luxuchun.github.io/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="generator是一种函数，这种函数是ES6提出的一种异步编程的解决方案，在它内部，使用yield关键字封装了一个个状态机。这个函数的执行结果，就是一个遍历器对象。 一、generator函数的理解generator函数是ES6提供的一种异步编程的解决方案,generator是一种函数，仍然是普通函数，这种函数是ES6提出的一种异步编程的解决方案，在它内部，使用yield关键字封装了一个个状态机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Generator">
+<meta property="og:url" content="https://dynastylu.github.io/Generator.html">
+<meta property="og:site_name" content="DynastyLu的个人博客">
+<meta property="og:description" content="generator是一种函数，这种函数是ES6提出的一种异步编程的解决方案，在它内部，使用yield关键字封装了一个个状态机。这个函数的执行结果，就是一个遍历器对象。 一、generator函数的理解generator函数是ES6提供的一种异步编程的解决方案,generator是一种函数，仍然是普通函数，这种函数是ES6提出的一种异步编程的解决方案，在它内部，使用yield关键字封装了一个个状态机">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:updated_time" content="2019-03-21T15:17:30.150Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Generator">
+<meta name="twitter:description" content="generator是一种函数，这种函数是ES6提出的一种异步编程的解决方案，在它内部，使用yield关键字封装了一个个状态机。这个函数的执行结果，就是一个遍历器对象。 一、generator函数的理解generator函数是ES6提供的一种异步编程的解决方案,generator是一种函数，仍然是普通函数，这种函数是ES6提出的一种异步编程的解决方案，在它内部，使用yield关键字封装了一个个状态机">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/luxuchun.github.io/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dynastylu.github.io/Generator.html">
+
+
+
+
+
+  <title>Generator | DynastyLu的个人博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/luxuchun.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DynastyLu的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">DynastyLu的个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/luxuchun.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/luxuchun.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dynastylu.github.io/luxuchun.github.io/Generator.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="卢旭春">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/luxuchun.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DynastyLu的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Generator</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-21T20:35:04+08:00">
+                2019-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>generator是一种函数，这种函数是ES6提出的一种异步编程的解决方案，在它内部，使用yield关键字封装了一个个状态机。这个函数的执行结果，就是一个遍历器对象。</p>
+<h3 id="一、generator函数的理解"><a href="#一、generator函数的理解" class="headerlink" title="一、generator函数的理解"></a>一、generator函数的理解</h3><pre><code>generator函数是ES6提供的一种异步编程的解决方案,generator是一种函数，仍然是普通函数，这种函数是ES6提出的一种异步编程的解决方案，在它内部，使用yield关键字封装了一个个状态机。这个函数的执行结果，就是一个遍历器对象。
+</code></pre><h3 id="1、所谓“异步”，就是先执行第一段，转而执行其他的任务，等做好了准备再回来执行后面的-异步加载也叫非阻塞模式加载-浏览器在下载js的同时-还会执行后续的页面处理"><a href="#1、所谓“异步”，就是先执行第一段，转而执行其他的任务，等做好了准备再回来执行后面的-异步加载也叫非阻塞模式加载-浏览器在下载js的同时-还会执行后续的页面处理" class="headerlink" title="1、所谓“异步”，就是先执行第一段，转而执行其他的任务，等做好了准备再回来执行后面的;异步加载也叫非阻塞模式加载,浏览器在下载js的同时,还会执行后续的页面处理."></a>1、所谓“异步”，就是先执行第一段，转而执行其他的任务，等做好了准备再回来执行后面的;异步加载也叫非阻塞模式加载,浏览器在下载js的同时,还会执行后续的页面处理.</h3><h3 id="2、常见的异步模式有"><a href="#2、常见的异步模式有" class="headerlink" title="2、常见的异步模式有"></a>2、常见的异步模式有</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">回调函数</span><br><span class="line">事件监听</span><br><span class="line">发布/订阅模式</span><br><span class="line">Promise</span><br><span class="line">Generator</span><br><span class="line">async/await</span><br><span class="line">后来ES6中，引入了Generator函数；ES7中，async/await更是将异步编程带入了一个全新的阶段。</span><br></pre></td></tr></table></figure>
+<h3 id="二、-Generator函数特征："><a href="#二、-Generator函数特征：" class="headerlink" title="二、 Generator函数特征："></a>二、 Generator函数特征：</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（<span class="number">1</span>）<span class="function"><span class="keyword">function</span> 关键字和函数之间有一个星号(<span class="params">*</span>),且内部使用<span class="title">yield</span>表达式，定义不同的内部状态。</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">（2）调用<span class="title">Generator</span>函数后，该函数并不执行，返回的也不是函数运行结果，而是一个指向内部状态的指针对象。</span></span><br></pre></td></tr></table></figure>
+<h3 id="三、定义Gernerator函数"><a href="#三、定义Gernerator函数" class="headerlink" title="三、定义Gernerator函数"></a>三、定义Gernerator函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="function"><span class="title">enerator</span></span>() &#123;</span><br><span class="line">    yield <span class="string">'hello'</span>;</span><br><span class="line">    yield <span class="string">'world'</span>;</span><br><span class="line">    <span class="built_in">return</span> <span class="string">'ending'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var x = enerator();</span><br><span class="line"></span><br><span class="line">console.log(x.next());// &#123; value: <span class="string">'hello'</span>, <span class="keyword">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line"></span><br><span class="line">console.log(x.next());// &#123; value: <span class="string">'world'</span>, <span class="keyword">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line"></span><br><span class="line">console.log(x.next());// &#123; value: <span class="string">'ending'</span>, <span class="keyword">done</span>: <span class="literal">true</span> &#125;</span><br><span class="line"></span><br><span class="line">console.log(x.next());// &#123; value: <span class="string">'undefined'</span>, <span class="keyword">done</span>: <span class="literal">true</span> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="遍历器对象的next方法的运行逻辑："><a href="#遍历器对象的next方法的运行逻辑：" class="headerlink" title="遍历器对象的next方法的运行逻辑："></a>遍历器对象的next方法的运行逻辑：</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">（<span class="number">1</span>）遇到<span class="keyword">yield</span>表达式，就暂停执行后面的操作，并将紧跟在<span class="keyword">yield</span>后面的那个表达式的值，作为返回的对象的value属性值。</span><br><span class="line"></span><br><span class="line">（<span class="number">2</span>）下一次调用next方法时，再继续往下执行，直到遇到下一个<span class="keyword">yield</span>表达式。</span><br><span class="line"></span><br><span class="line">（<span class="number">3</span>）如果没有再遇到新的<span class="keyword">yield</span>表达式，就一直运行到函数结束，直到<span class="keyword">return</span>语句为止，并将<span class="keyword">return</span>语句后面的表达式的值，作为返回的对象的value属性值。</span><br><span class="line"></span><br><span class="line">（<span class="number">4</span>）如果该函数没有<span class="keyword">return</span>语句，则返回的对象的value属性值为<span class="literal">undefined</span>。</span><br></pre></td></tr></table></figure>
+<h3 id="四、yield表达式"><a href="#四、yield表达式" class="headerlink" title="四、yield表达式"></a>四、yield表达式</h3><h3 id="1、-只能用在generator函数里面，如果要将yield用在循环里，不能用forEach，要用for。因为forEach方法的参数是一个普通函数；"><a href="#1、-只能用在generator函数里面，如果要将yield用在循环里，不能用forEach，要用for。因为forEach方法的参数是一个普通函数；" class="headerlink" title="1、 只能用在generator函数里面，如果要将yield用在循环里，不能用forEach，要用for。因为forEach方法的参数是一个普通函数；"></a>1、 只能用在generator函数里面，如果要将yield用在循环里，不能用forEach，要用for。因为forEach方法的参数是一个普通函数；</h3><h3 id="2、-yield表达式如果用在另一个表达式中，必须放在-中；"><a href="#2、-yield表达式如果用在另一个表达式中，必须放在-中；" class="headerlink" title="2、 yield表达式如果用在另一个表达式中，必须放在()中；"></a>2、 yield表达式如果用在另一个表达式中，必须放在()中；</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="function"><span class="title">demo</span></span>() &#123;</span><br><span class="line">    </span><br><span class="line">    console.log(<span class="string">'Hello'</span> + yield); // SyntaxError  </span><br><span class="line">    </span><br><span class="line">    console.log(<span class="string">'Hello'</span> + yield 123); // SyntaxError</span><br><span class="line">    </span><br><span class="line">    console.log(<span class="string">'Hello'</span> + (yield)); // OK  </span><br><span class="line">    </span><br><span class="line">    console.log(<span class="string">'Hello'</span> + (yield 123)); // OK</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3、-yield表达式用作函数参数或放在赋值表达式的右边，可以不加括号。"><a href="#3、-yield表达式用作函数参数或放在赋值表达式的右边，可以不加括号。" class="headerlink" title="3、 yield表达式用作函数参数或放在赋值表达式的右边，可以不加括号。"></a>3、 yield表达式用作函数参数或放在赋值表达式的右边，可以不加括号。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="function"><span class="title">demo</span></span>() &#123;</span><br><span class="line">    foo(yield <span class="string">'a'</span>, yield <span class="string">'b'</span>); // OK  </span><br><span class="line">    <span class="built_in">let</span> input = yield; // OK</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4、-一个函数只能执行一次return语句，但是可以执行多次yield表达式"><a href="#4、-一个函数只能执行一次return语句，但是可以执行多次yield表达式" class="headerlink" title="4、 一个函数只能执行一次return语句，但是可以执行多次yield表达式"></a>4、 一个函数只能执行一次return语句，但是可以执行多次yield表达式</h3><h3 id="五、-next方法的参数："><a href="#五、-next方法的参数：" class="headerlink" title="五、 next方法的参数："></a>五、 next方法的参数：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">第一次调用a.next()无法输出参数</span><br><span class="line">每次a.next(赋值)都等于函数体里面yield表达式的值</span><br></pre></td></tr></table></figure>
+<h2 id="示例一："><a href="#示例一：" class="headerlink" title="示例一："></a>示例一：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">function</span>* foo(x) &#123;</span><br><span class="line">    var y = 2 * (yield (x + 1));</span><br><span class="line">    var z = yield (y / 3);</span><br><span class="line">    <span class="built_in">return</span> (x + y + z);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">var a = foo(5);</span><br><span class="line"></span><br><span class="line">a.next() // Object&#123;value:6, <span class="keyword">done</span>:<span class="literal">false</span>&#125;</span><br><span class="line">a.next() // Object&#123;value:NaN, <span class="keyword">done</span>:<span class="literal">false</span>&#125;</span><br><span class="line">a.next() // Object&#123;value:NaN, <span class="keyword">done</span>:<span class="literal">true</span>&#125;</span><br><span class="line"> </span><br><span class="line">var b = foo(5);</span><br><span class="line"></span><br><span class="line">b.next() // &#123; value:6, <span class="keyword">done</span>:<span class="literal">false</span> &#125;</span><br><span class="line">b.next(12) // &#123; value:8, <span class="keyword">done</span>:<span class="literal">false</span> &#125;</span><br><span class="line">b.next(13) // &#123; value:42, <span class="keyword">done</span>:<span class="literal">true</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码中，第二次运行next方法的时候不带参数，导致 y 的值等于2 * undefined（即NaN），除以 3 以后还是NaN，因此返回对象的value属性也等于NaN。第三次运行Next方法的时候不带参数，所以z等于undefined，返回对象的value属性等于5 + NaN + undefined，即NaN。</p>
+<p>如果向next方法提供参数，返回结果就完全不一样了。上面代码第一次调用b的next方法时，返回x+1的值6；第二次调用next方法，将上一次yield表达式的值设为12，因此y等于24，返回y / 3的值8；第三次调用next方法，将上一次yield表达式的值设为13，因此z等于13，这时x等于5，y等于24，所以return语句的值等于42。</p>
+<p>注意，由于next方法的参数表示上一个yield表达式的返回值，所以在第一次使用next方法时，传递参数是无效的。V8 引擎直接忽略第一次使用next方法时的参数，只有从第二次使用next方法开始，参数才是有效的。从语义上讲，第一个next方法用来启动遍历器对象，所以不用带有参数。</p>
+<h3 id="示例二："><a href="#示例二：" class="headerlink" title="示例二："></a>示例二：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">function</span>* <span class="function"><span class="title">dataConsumer</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">'Started'</span>);</span><br><span class="line">    console.log(`1. <span class="variable">$&#123;yield&#125;</span>`);</span><br><span class="line">    console.log(`2. <span class="variable">$&#123;yield&#125;</span>`);</span><br><span class="line">    <span class="built_in">return</span> <span class="string">'result'</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">let</span> genObj = dataConsumer();</span><br><span class="line"></span><br><span class="line">genObj.next();</span><br><span class="line"></span><br><span class="line">genObj.next(<span class="string">'a'</span>) // 1. a</span><br><span class="line"></span><br><span class="line">genObj.next(<span class="string">'b'</span>) // 2. b</span><br></pre></td></tr></table></figure>
+<h3 id="六、Generator函数的写法"><a href="#六、Generator函数的写法" class="headerlink" title="六、Generator函数的写法"></a>六、Generator函数的写法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ES6 没有规定，<span class="function"><span class="keyword">function</span>关键字与函数名之间的星号必须要写在哪个位置，所以以下的写法都能通过。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> * foo(x, y) &#123;&#125;</span><br><span class="line"><span class="keyword">function</span> *foo(x, y) &#123;&#125;</span><br><span class="line"><span class="keyword">function</span>* foo(x, y) &#123;&#125;</span><br><span class="line"><span class="keyword">function</span>*foo(x, y) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h3 id="七、-Generator-prototype-throw"><a href="#七、-Generator-prototype-throw" class="headerlink" title="七、 Generator.prototype.throw()"></a>七、 Generator.prototype.throw()</h3><p>Generator 函数返回的遍历器对象，都有一个throw方法，可以在函数体外抛出错误，然后在 Generator 函数体内捕获。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var g = <span class="keyword">function</span>* () &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        yield;</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">        console.log(<span class="string">'内部捕获'</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var i = g();</span><br><span class="line">i.next();</span><br><span class="line"></span><br><span class="line">try &#123;</span><br><span class="line">    i.throw(<span class="string">'a'</span>);</span><br><span class="line">    i.throw(<span class="string">'b'</span>);</span><br><span class="line">&#125; catch (e) &#123;</span><br><span class="line">    console.log(<span class="string">'外部捕获'</span>, e);</span><br><span class="line">&#125;</span><br><span class="line">// 内部捕获 a</span><br><span class="line">// 外部捕获 b</span><br></pre></td></tr></table></figure>
+<p>上面代码中，遍历器对象i连续抛出两个错误。第一个错误被 Generator 函数体内的catch语句捕获。i第二次抛出错误，由于 Generator 函数内部的catch语句已经执行过了，不会再捕捉到这个错误了，所以这个错误就被抛出了 Generator 函数体，被函数体外的catch语句捕获。</p>
+<p>throw方法可以接受一个参数，该参数会被catch语句接收，建议抛出Error对象的实例。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var g = <span class="keyword">function</span>* () &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        yield;</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">        console.log(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var i = g();</span><br><span class="line">i.next();</span><br><span class="line">i.throw(new Error(<span class="string">'出错了！'</span>));</span><br><span class="line">// Error: 出错了！(…)</span><br></pre></td></tr></table></figure>
+<h3 id="八、-Generator-prototype-return"><a href="#八、-Generator-prototype-return" class="headerlink" title="八、 Generator.prototype.return()"></a>八、 Generator.prototype.return()</h3><p>Generator 函数返回的遍历器对象，还有一个return方法，可以返回给定的值，并且终结遍历 Generator 函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">function</span>* <span class="function"><span class="title">gen</span></span>() &#123;</span><br><span class="line">    yield 1;</span><br><span class="line">    yield 2;</span><br><span class="line">    yield 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var g = gen();</span><br><span class="line"></span><br><span class="line">g.next()        // &#123; value: 1, <span class="keyword">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line">g.return(<span class="string">'foo'</span>) // &#123; value: <span class="string">"foo"</span>, <span class="keyword">done</span>: <span class="literal">true</span> &#125;</span><br><span class="line">g.next()        // &#123; value: undefined, <span class="keyword">done</span>: <span class="literal">true</span> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="function"><span class="title">gen</span></span>() &#123;</span><br><span class="line">    yield 1;</span><br><span class="line">    yield 2;</span><br><span class="line">    yield 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var g = gen();</span><br><span class="line"></span><br><span class="line">g.next()        // &#123; value: 1, <span class="keyword">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line">g.return() // &#123; value: undefined, <span class="keyword">done</span>: <span class="literal">true</span> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="return方法跟next方法的区别"><a href="#return方法跟next方法的区别" class="headerlink" title="return方法跟next方法的区别:"></a>return方法跟next方法的区别:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(1) <span class="built_in">return</span>终结遍历，之后的yield语句都失效；next返回本次yield语句的返回值。</span><br><span class="line"></span><br><span class="line">(2) <span class="built_in">return</span>没有参数的时候，返回&#123; value: undefined, <span class="keyword">done</span>: <span class="literal">true</span> &#125;；next没有参数的时候返回本次yield语句的返回值。</span><br><span class="line"></span><br><span class="line">(3) <span class="built_in">return</span>有参数的时候，覆盖本次yield语句的返回值，也就是说，返回&#123; value: 参数, <span class="keyword">done</span>: <span class="literal">true</span> &#125;；next有参数的时候，覆盖上次yield语句的返回值，返回值可能跟参数有关（参数参与计算的话），也可能跟参数无关（参数不参与计算）。</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/luxuchun.github.io/My-New-Post.html" rel="next" title="你好，姜贝！">
+                <i class="fa fa-chevron-left"></i> 你好，姜贝！
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/luxuchun.github.io/Eslint.html" rel="prev" title="ESLint">
+                ESLint <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">卢旭春</p>
+              <p class="site-description motion-element" itemprop="description">DynastyLu的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/luxuchun.github.io/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、generator函数的理解"><span class="nav-number">1.</span> <span class="nav-text">一、generator函数的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、所谓“异步”，就是先执行第一段，转而执行其他的任务，等做好了准备再回来执行后面的-异步加载也叫非阻塞模式加载-浏览器在下载js的同时-还会执行后续的页面处理"><span class="nav-number">2.</span> <span class="nav-text">1、所谓“异步”，就是先执行第一段，转而执行其他的任务，等做好了准备再回来执行后面的;异步加载也叫非阻塞模式加载,浏览器在下载js的同时,还会执行后续的页面处理.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、常见的异步模式有"><span class="nav-number">3.</span> <span class="nav-text">2、常见的异步模式有</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、-Generator函数特征："><span class="nav-number">4.</span> <span class="nav-text">二、 Generator函数特征：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、定义Gernerator函数"><span class="nav-number">5.</span> <span class="nav-text">三、定义Gernerator函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历器对象的next方法的运行逻辑："><span class="nav-number">6.</span> <span class="nav-text">遍历器对象的next方法的运行逻辑：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、yield表达式"><span class="nav-number">7.</span> <span class="nav-text">四、yield表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、-只能用在generator函数里面，如果要将yield用在循环里，不能用forEach，要用for。因为forEach方法的参数是一个普通函数；"><span class="nav-number">8.</span> <span class="nav-text">1、 只能用在generator函数里面，如果要将yield用在循环里，不能用forEach，要用for。因为forEach方法的参数是一个普通函数；</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、-yield表达式如果用在另一个表达式中，必须放在-中；"><span class="nav-number">9.</span> <span class="nav-text">2、 yield表达式如果用在另一个表达式中，必须放在()中；</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、-yield表达式用作函数参数或放在赋值表达式的右边，可以不加括号。"><span class="nav-number">10.</span> <span class="nav-text">3、 yield表达式用作函数参数或放在赋值表达式的右边，可以不加括号。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、-一个函数只能执行一次return语句，但是可以执行多次yield表达式"><span class="nav-number">11.</span> <span class="nav-text">4、 一个函数只能执行一次return语句，但是可以执行多次yield表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、-next方法的参数："><span class="nav-number">12.</span> <span class="nav-text">五、 next方法的参数：</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#示例一："><span class="nav-number"></span> <span class="nav-text">示例一：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例二："><span class="nav-number">1.</span> <span class="nav-text">示例二：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、Generator函数的写法"><span class="nav-number">2.</span> <span class="nav-text">六、Generator函数的写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、-Generator-prototype-throw"><span class="nav-number">3.</span> <span class="nav-text">七、 Generator.prototype.throw()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八、-Generator-prototype-return"><span class="nav-number">4.</span> <span class="nav-text">八、 Generator.prototype.return()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#return方法跟next方法的区别"><span class="nav-number">5.</span> <span class="nav-text">return方法跟next方法的区别:</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">卢旭春</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/luxuchun.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/luxuchun.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/luxuchun.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/luxuchun.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/luxuchun.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/luxuchun.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/luxuchun.github.io/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/luxuchun.github.io/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/luxuchun.github.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/luxuchun.github.io/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/luxuchun.github.io/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
